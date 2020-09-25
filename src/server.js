@@ -51,11 +51,11 @@ app.get('/profile', (req, res) => {
 app.get('/login', (req, res) => {
   // define constants for the authorization request
   const authorizationEndpoint = oidcProviderInfo['authorization_endpoint'];
-  const responseType = 'token id_token';
+  const responseType = 'token id_token code';
   const scope = 'openid profile email';
   const clientID = process.env.CLIENT_ID;
   const redirectUri = 'http://localhost:3000/callback';
-  //const responseMode = 'form_post';
+  const responseMode = 'form_post';
   const nonce = crypto.randomBytes(16).toString('hex');
   //const audience = process.env.API_IDENTIFIER;
   // define a signed cookie containing the nonce value
@@ -69,9 +69,9 @@ app.get('/login', (req, res) => {
   .cookie(nonceCookie, nonce, options)
   .redirect(
   authorizationEndpoint +
-  //'?response_mode=' + responseMode +
-  //'&response_type=' + responseType +
-  '?response_type=' + responseType +
+  '?response_mode=' + responseMode +
+  '&response_type=' + responseType +
+  '&response_type=' + responseType +
   '&scope=' + scope +
   '&client_id=' + clientID +
   '&redirect_uri='+ redirectUri +
